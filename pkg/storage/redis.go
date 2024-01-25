@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+
 	"github.com/go-redis/redis/v8"
 )
 
@@ -11,14 +12,17 @@ type RedisClient struct {
 	Client *redis.Client
 }
 
-func NewRedisClient(addr string, password string, db int) *RedisClient {
+func NewRedisClient(addr string, password string, db int) (*RedisClient, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     addr,
 		Password: password,
 		DB:       db,
 	})
-
-	return &RedisClient{Client: client}
+	_, err := client.Ping(ctx).Result()
+	if err != nil {
+		return nil, err
+	}
+	return &RedisClient{Client: client}, nil
 }
 
 func (r *RedisClient) Set(key string, value interface{}) error {
