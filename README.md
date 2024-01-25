@@ -1,5 +1,23 @@
 # Web Hotlist Middleware
+```
+// GetStatistics retrieves statistics based on the given statType, period, and limit.
+// It returns a slice of Statistic structs representing the statistics and an error if any.
+// The statType parameter specifies the type of statistics to retrieve.
+// The period parameter specifies the time range for the statistics (day, week, month, or all).
+// The limit parameter specifies the maximum number of statistics to retrieve.
+// The function queries the Redis database to fetch the highest scoring members and their corresponding details.
+// It converts the results into Statistic structs and returns them.
+// If an error occurs during the retrieval or conversion process, an error is returned.
+curl -X POST 'http://localhost:8080/api/submit-statistics' \
+-H 'Content-Type: application/json' \
+-d '{
+    "type": "POST",
+    "identifier": "123",
+    "count": 1
+}'
 
+curl -X GET 'http://localhost:8080/api/statistics?type=POST&period=day&limit=10'
+```
 This project is a middleware written in Go for collecting and analyzing web request data. It provides an API for retrieving and submitting statistics based on different types (POST, COMMENT, VOTE, etc.) and time ranges (daily, weekly, monthly, and total). All statistics data are stored and managed using Redis.
 
 ## Features
